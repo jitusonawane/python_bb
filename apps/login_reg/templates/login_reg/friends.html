@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <title> |My whishlist |</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class='col-sm-1 col-sm-offset-4'>
+            <h5>
+                <a href="/logout">logout</a>
+            </h5>
+        </div>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- <div class="container">
+        
+                <h2>Welcome,{{mainUser.alias}}!</h2>
+                <h3>Your whishlist:</h3>       
+        
+                <table class='table table-striped'>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Added by</th>
+                            <th>Date added</th>
+                            <th>Action</th>                         
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if friends|length > 0 %} {% for friend in friends %}
+                        <tr>
+                            <td><a href="/show/{{friend.id}}">View as product profile</a></td>
+                            <td> {{friend.alias}}</td>
+                            <td>{{friend.created_at}}</td>
+                            <td>                                
+                                <a href="/remove_friend/{{friend.id}}">Remove from your whishlist</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                
+         
+        {% endfor %} {% else %}
+        <td>You dont have ay friend in you list:</td>
+        {% endif %}
+    </table> -->
+    <!-- 
+        
+            <table class='table table-striped table-bordered'>
+                <thead class="thead">
+                    <h1> Other Users whishlist </h1>
+                    <tr>
+                        <th>Item</th>
+                        <th>Added by</th>
+                        <th>Date added</th>
+                        <th>Action</th>    
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in all_users %} {% if not user in friends %}
+                    <tr>
+                        <form action='/add_friend/{{user.id}}' method="post">
+                                {% csrf_token %}
+                                <td class="row">
+                                    <a href="/show/{{user.id}}">{{user.alias}}</a>
+                                </td>
+                                <td></td>
+                                <td></td>
+                        
+                        <td>                          
+                                <button type="submit" name="add_Friend">Add to my whishlist</button>
+                            </form>
+                        </td>
+
+                    </tr>
+                    {% endif %} {% endfor %}
+
+                </tbody>
+            </table>
+        </div> -->
+
+    <h1>Hello {{request.session.user_name}}!</h1>
+    <h2>Your wishlist</h2>
+
+    {% for wish in wishes %}
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Added By:</th>
+                <th>added on</th>
+                <th>Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{wish.wish.user.name}}</td>
+                <td> {{wish.created_at}} </td>
+                <td>
+                    <a href="/login_reg/item/{{item_id}}">{{wish.wish.id}} Remove from your whishlist</a>
+                </td>
+
+            </tr>
+            {{wish.wish.title}} {% if request.session.user_id == wish.wish.user.id %}
+            <a href="/login_reg/friends/"> delete </a>
+
+            {% else %}
+            <a href="/login_reg/friends"> Remove </a>
+            {% endif %} {% endfor %}
+            </h3>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    
+    <h2>Others Wish list</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Added By</th>
+                <th>added on</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        {% for item in items %}
+        <tbody>
+            <tr>
+                <td>
+                    <h3>
+                        <a href="/login_reg/item/{{item_id}}">{{item.title}}</a>
+                        wish by: {{item.user.name}} {{item.created_at}}
+                </td>
+                <td>
+                    <a href="/friends/{{item.id}}">add to wishlist</a>
+                    {% endfor %}
+
+                </td>
+                <hr>
+                <hr>
+                <a href="/add_item">Add a new Item</a>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>
